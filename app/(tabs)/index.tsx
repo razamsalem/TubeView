@@ -49,7 +49,7 @@ export default function Home() {
         <TouchableOpacity onPress={() => handleVideoPress(item.id.videoId)}>
             <View key={item.id.videoId} style={{ marginBottom: 20, alignItems: "center" }}>
                 <Image source={{ uri: item.snippet.thumbnails.medium.url }} style={{ width: 320, height: 180 }} />
-                <Text>{item.snippet.title}</Text>
+                <Text numberOfLines={2}>{item.snippet.title}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -57,7 +57,7 @@ export default function Home() {
     const handleVideoPress = (videoId: string) => {
         router.push({
             pathname: 'videos/[id]',
-            params: {id: videoId},
+            params: { id: videoId },
         })
     }
 
