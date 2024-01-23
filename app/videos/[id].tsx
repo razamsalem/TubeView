@@ -3,6 +3,7 @@ import { Stack, useLocalSearchParams } from "expo-router"
 import { Text, View, StyleSheet } from "react-native"
 import YoutubePlayer from "react-native-youtube-iframe"
 import demoVideos from "../../DemoData/demo-videos.json"
+import { COLORS, FONT, SIZES } from "../../constants"
 
 export default function VideoDetails() {
     const [playing, setPlaying] = useState(false)
@@ -25,13 +26,13 @@ export default function VideoDetails() {
         )
     }
     
-    const headerTitle = video.snippet.title.substring(0, 22)
+    const headerTitle = video.snippet.title.substring(0, SIZES.xLarge)
 
     return (
         <View style={styles.container}>
             <Stack.Screen
                 options={{
-                    headerTitle: headerTitle.length === 22 ? headerTitle + "..." : headerTitle,
+                    headerTitle: headerTitle.length === SIZES.xLarge ? headerTitle + "..." : headerTitle,
                 }}
             />
             <View>
@@ -53,18 +54,18 @@ export default function VideoDetails() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: COLORS.lightWhite,
     },
     detailsContainer: {
-        paddingHorizontal: 20,
+        paddingHorizontal: SIZES.large,
     },
     title: {
-        fontSize: 20,
+        fontSize: SIZES.large,
         fontWeight: "bold",
-        marginBottom: 10,
+        marginBottom: SIZES.xSmall,
     },
     description: {
-        fontSize: 16,
-        color: "#555",
+        fontSize: SIZES.medium,
+        color: COLORS.gray,
     },
 });
