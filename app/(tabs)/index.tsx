@@ -1,9 +1,11 @@
-import { Text, View } from "react-native"
+import { SafeAreaView, Text, View } from "react-native"
+
+import { COLORS, icons, images, SIZES } from "../../constants"
 
 export default function index() {
     return (
-        <View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite}}>
             <Text>Home Sweet Home</Text>
-        </View>
+        </SafeAreaView>
     )
 }
