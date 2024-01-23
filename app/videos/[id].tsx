@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useRef } from "react"
-import { useLocalSearchParams } from "expo-router"
-import { Text, View } from "react-native"
+import React, { useState, useCallback } from "react"
+import { Stack, useLocalSearchParams } from "expo-router"
+import { Text, View, StyleSheet } from "react-native"
 import YoutubePlayer from "react-native-youtube-iframe"
 import demoVideos from "../../DemoData/demo-videos.json"
 
@@ -24,9 +24,16 @@ export default function VideoDetails() {
             </View>
         )
     }
+    
+    const headerTitle = video.snippet.title.substring(0, 22)
 
     return (
-        <View>
+        <View style={styles.container}>
+            <Stack.Screen
+                options={{
+                    headerTitle: headerTitle.length === 22 ? headerTitle + "..." : headerTitle,
+                }}
+            />
             <View>
                 <YoutubePlayer
                     height={230}
@@ -35,10 +42,29 @@ export default function VideoDetails() {
                     onChangeState={onStateChange}
                 />
             </View>
-            <View>
-                <Text>{video.snippet.title}</Text>
-                <Text>{video.snippet.description}</Text>
+            <View style={styles.detailsContainer}>
+                <Text style={styles.title}>{video.snippet.title}</Text>
+                <Text style={styles.description}>{video.snippet.description}</Text>
             </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+    },
+    detailsContainer: {
+        paddingHorizontal: 20,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+    description: {
+        fontSize: 16,
+        color: "#555",
+    },
+});
