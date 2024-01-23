@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { ActivityIndicator, FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import axios from "axios"
 
 import { COLORS, icons, images, SIZES } from "../constants"
@@ -40,6 +40,7 @@ export default function HomePage() {
             setVideos(res.items)
         } catch (err) {
             console.error("Error fetching data -> ", err)
+            Alert.alert("Something went wrong...")
         } finally {
             setLoading(false)
         }
@@ -47,9 +48,9 @@ export default function HomePage() {
 
     const renderVideoItem = ({ item }: { item: VideoItem }) => (
         <TouchableOpacity onPress={() => handleVideoPress(item.id.videoId)}>
-            <View key={item.id.videoId} style={{ marginBottom: 20, alignItems: "center" }}>
-                <Image source={{ uri: item.snippet.thumbnails.medium.url }} style={{ width: 320, height: 180 }} />
-                <Text numberOfLines={2}>{item.snippet.title}</Text>
+            <View key={item.id.videoId} style={styles.videoItem}>
+                <Image source={{ uri: item.snippet.thumbnails.medium.url }} style={styles.thumbnail} />
+                <Text style={styles.title} numberOfLines={2}>{item.snippet.title}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -62,14 +63,42 @@ export default function HomePage() {
     }
 
     if (loading) {
-        return <ActivityIndicator size={"large"} />
+        return <ActivityIndicator style={styles.loadingIndicator} size={"large"} />
     }
 
     return (
+        <View style={styles.container}>
             <FlatList
                 data={videos}
                 renderItem={renderVideoItem}
                 keyExtractor={(item) => item.id.videoId}
             />
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.lightWhite,
+    },
+    loadingIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    videoItem: {
+        marginBottom: SIZES.large,
+        alignItems: 'center',
+    },
+    thumbnail: {
+        width: '100%',
+        aspectRatio: 16 / 9,
+        resizeMode: 'cover',
+    },
+    title: {
+        marginTop: SIZES.xSmall,
+        fontSize: SIZES.medium,
+        fontWeight: 'bold',
+    },
+})

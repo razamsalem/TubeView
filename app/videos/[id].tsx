@@ -3,7 +3,7 @@ import { Stack, useLocalSearchParams } from "expo-router"
 import { Text, View, StyleSheet } from "react-native"
 import YoutubePlayer from "react-native-youtube-iframe"
 import demoVideos from "../../DemoData/demo-videos.json"
-import { COLORS, FONT, SIZES } from "../../constants"
+import { COLORS, SIZES } from "../../constants"
 
 export default function VideoDetails() {
     const [playing, setPlaying] = useState(false)
