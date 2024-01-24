@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text } from 'react-native'
+import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text, Keyboard } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import axios from 'axios'
@@ -31,7 +31,10 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
 
             cacheData(cacheKey, res.items)
         } catch (err) {
-
+            console.error("Error fetching data -> ", err)
+            Alert.alert("Something went wrong when searching...")
+        } finally {
+            Keyboard.dismiss()
         }
     }
 
@@ -87,6 +90,7 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
             <TextInput
                 style={styles.input}
                 placeholder="Search for videos..."
+                selectionColor={COLORS.primary}
                 value={searchValue}
                 onChangeText={(text) => setSearchValue(text)}
                 onSubmitEditing={handleSearch}
