@@ -9,5 +9,8 @@ export interface VideoItem {
             }
         }
         title: string
+        description: string
+        publishedAt: string
+        channelTitle: string
     }
 }

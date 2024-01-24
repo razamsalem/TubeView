@@ -20,13 +20,11 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
             const cachedData = await getCachedData(cacheKey)
 
             if (cachedData) {
-                console.log('Data fetched from cache:', cachedData.items)
                 onSearchResult(cachedData.items)
                 return
             }
 
             const res = await fetchData()
-            console.log('Data fetched from API:', res.items)
             onSearchResult(res.items)
 
             cacheData(cacheKey, res.items)
