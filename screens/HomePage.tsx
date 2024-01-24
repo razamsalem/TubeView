@@ -1,41 +1,28 @@
 import React, { useEffect, useState } from "react"
 import { ActivityIndicator, Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { router } from "expo-router"
-import axios from "axios"
 
+import { VideoItem } from "../types/VideoItem"
 import { YT_API_KEY } from '@env'
 import { COLORS, icons, images, SIZES } from "../constants"
+import SearchBar from "../components/SearchBar"
 
-interface VideoItem {
-    id: {
-        videoId: string
-    }
-    snippet: {
-        thumbnails: {
-            medium: {
-                url: string
-            }
-        }
-        title: string
-    }
-}
 
 export default function HomePage() {
     const [videos, setVideos] = useState<VideoItem[]>([])
-    const [loading, setLoading] = useState(true)
-    const BASE_URL: string = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&videoEmbeddable=true&type=video&key=${YT_API_KEY}&q=React Native`
-
+    const [loading, setLoading] = useState<boolean>(true)
+    
     useEffect(() => {
-        setTimeout(() => {
-            fetchData()
-        }, 3000)
+        fetchData()
+    
     }, [])
 
     const fetchData = async () => {
         try {
+            setLoading(true)
             const res = await require("../DemoData/demo-videos.json")
             // const res = await axios.get(BASE_URL)
-            setVideos(res.data.items)
+            setVideos(res.items)
         } catch (err) {
             console.error("Error fetching data -> ", err)
             Alert.alert("Something went wrong...")
@@ -51,8 +38,8 @@ export default function HomePage() {
                 <Text style={styles.title} numberOfLines={2}>{item.snippet.title}</Text>
             </View>
         </TouchableOpacity>
-    );
-    
+    )
+
 
     const handleVideoPress = (videoId: string) => {
         router.push({
@@ -61,12 +48,18 @@ export default function HomePage() {
         })
     }
 
+    const onSearchResult = (results: VideoItem[]) => {
+        setVideos(results)
+        setLoading(false)
+    }
+    
     if (loading) {
         return <ActivityIndicator style={styles.loadingIndicator} size={"large"} />
     }
 
     return (
         <View style={styles.container}>
+            <SearchBar onSearchResult={onSearchResult}/>
             <FlatList
                 data={videos}
                 renderItem={renderVideoItem}
