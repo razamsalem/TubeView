@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 import axios from 'axios'
 
 import { VideoItem } from "../types/VideoItem"
@@ -8,11 +9,12 @@ import { YT_API_KEY } from '@env'
 import { COLORS, SIZES } from '../constants'
 
 interface SearchBarProps {
-    onSearchResult: (results: VideoItem[]) => void;
+    onSearchResult: (results: VideoItem[]) => void
 }
 
 export default function SearchBar({ onSearchResult }: SearchBarProps) {
     const [searchValue, setSearchValue] = useState<string>('')
+    const [isTextInputFocused, setTextInputFocused] = useState<boolean>(false)
 
     const handleSearch = async () => {
         try {
@@ -67,9 +69,17 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
         return res.data
     }
 
-    const handleCleanSearch = ( ) => {
+    const handleCleanSearch = () => {
         setSearchValue('')
         onSearchResult([])
+    }
+
+    const handleFocus = () => {
+        setTextInputFocused(true)
+    }
+
+    const handleBlur = () => {
+        setTextInputFocused(false)
     }
 
     return (
@@ -80,14 +90,19 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
                 value={searchValue}
                 onChangeText={(text) => setSearchValue(text)}
                 onSubmitEditing={handleSearch}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
             />
-            <TouchableOpacity onPress={handleSearch}>
-                <Text>Search</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity onPress={handleCleanSearch}>
-                <Text>X</Text>
-            </TouchableOpacity>
+
+            {isTextInputFocused ? (
+                <TouchableOpacity onPress={handleSearch}>
+                    <FontAwesome name="search" style={styles.icon} />
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity onPress={handleCleanSearch}>
+                    <FontAwesome name="trash" style={styles.icon} />
+                </TouchableOpacity>
+            )}
         </View>
     )
 }
@@ -100,6 +115,7 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
+
         marginRight: 8,
         padding: 8,
         paddingVertical: SIZES.xSmall,
@@ -110,5 +126,9 @@ const styles = StyleSheet.create({
         borderRadius: 12,
 
         backgroundColor: COLORS.lightWhite
+    },
+    icon: {
+        color: COLORS.lightGray,
+        fontSize: SIZES.xLarge
     }
 })
