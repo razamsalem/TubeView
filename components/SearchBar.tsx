@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 
 import { VideoItem } from "../types/VideoItem"
@@ -12,20 +13,60 @@ interface SearchBarProps {
 
 export default function SearchBar({ onSearchResult }: SearchBarProps) {
     const [searchValue, setSearchValue] = useState<string>('')
-    const BASE_URL: string = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&videoEmbeddable=true&type=video&key=${YT_API_KEY}&q=${searchValue}`
 
     const handleSearch = async () => {
         try {
-            const res = await axios.get(BASE_URL)
+            const cacheKey = `cachedVideos_${searchValue}`
+            const cachedData = await getCachedData(cacheKey)
 
-            if (res.data.items) {
-                onSearchResult(res.data.items)
+            if (cachedData) {
+                console.log('Data fetched from cache:', cachedData.items)
+                onSearchResult(cachedData.items)
+                return
             }
 
+            const res = await fetchData()
+            console.log('Data fetched from API:', res.items)
+            onSearchResult(res.items)
+
+            cacheData(cacheKey, res.items)
         } catch (err) {
-            console.error('Error searching videos:', err)
-            Alert.alert('Error searching, Please try again...')
+
         }
+    }
+
+    const cacheData = async (cacheKey: string, data: VideoItem[]) => {
+        const dataToCache = {
+            items: data,
+            timestamp: new Date().getTime()
+        }
+        AsyncStorage.setItem(cacheKey, JSON.stringify(dataToCache))
+    }
+
+    const getCachedData = async (cacheKey: string) => {
+        const cachedData = await AsyncStorage.getItem(cacheKey)
+
+        if (cachedData) {
+            const parsedData = JSON.parse(cachedData)
+
+            const currTime = new Date().getTime()
+            const cacheTime = parsedData.timestamp
+            const timeDiff = (currTime - cacheTime) / (1000 * 60 * 60)
+
+            if (timeDiff < 10) {
+                return parsedData
+            } else {
+                AsyncStorage.removeItem(cacheKey)
+            }
+
+            return null
+        }
+    }
+
+    const fetchData = async () => {
+        const BASE_URL: string = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&videoEmbeddable=true&type=video&key=${YT_API_KEY}&q=${searchValue}`
+        const res = await axios.get(BASE_URL)
+        return res.data
     }
 
     return (
