@@ -10,14 +10,6 @@ export default function Layout() {
                     headerTitle: 'Home',
                 }}
             />
-            {/* 
-            <Stack.Screen
-                name="videos/[id]"
-                options={({ route }) => ({
-                    headerTitle: route.params?.id ? `${route.params.id} video` : "Video",
-                    title: "Video",
-                })}
-            /> */}
         </Stack>
     )
 }

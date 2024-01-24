@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { ActivityIndicator, Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { router } from "expo-router"
 import axios from "axios"
 
+import { YT_API_KEY } from '@env'
 import { COLORS, icons, images, SIZES } from "../constants"
-import { router } from "expo-router"
 
 interface VideoItem {
     id: {
@@ -22,22 +23,19 @@ interface VideoItem {
 export default function HomePage() {
     const [videos, setVideos] = useState<VideoItem[]>([])
     const [loading, setLoading] = useState(true)
+    const BASE_URL: string = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&videoEmbeddable=true&type=video&key=${YT_API_KEY}&q=React Native`
 
     useEffect(() => {
         setTimeout(() => {
             fetchData()
-
         }, 3000)
     }, [])
-
-    useEffect(() => {
-        console.log('Videos fetched', videos)
-    }, [videos])
 
     const fetchData = async () => {
         try {
             const res = await require("../DemoData/demo-videos.json")
-            setVideos(res.items)
+            // const res = await axios.get(BASE_URL)
+            setVideos(res.data.items)
         } catch (err) {
             console.error("Error fetching data -> ", err)
             Alert.alert("Something went wrong...")
@@ -46,14 +44,15 @@ export default function HomePage() {
         }
     }
 
-    const renderVideoItem = ({ item }: { item: VideoItem }) => (
-        <TouchableOpacity onPress={() => handleVideoPress(item.id.videoId)}>
+    const renderVideoItem = ({ item, index }: { item: VideoItem; index: number }) => (
+        <TouchableOpacity key={index} onPress={() => handleVideoPress(item.id.videoId)}>
             <View key={item.id.videoId} style={styles.videoItem}>
                 <Image source={{ uri: item.snippet.thumbnails.medium.url }} style={styles.thumbnail} />
                 <Text style={styles.title} numberOfLines={2}>{item.snippet.title}</Text>
             </View>
         </TouchableOpacity>
-    )
+    );
+    
 
     const handleVideoPress = (videoId: string) => {
         router.push({
