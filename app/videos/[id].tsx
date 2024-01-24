@@ -3,15 +3,14 @@ import { Stack, useLocalSearchParams } from "expo-router"
 import { Text, View, StyleSheet } from "react-native"
 import YoutubePlayer from "react-native-youtube-iframe"
 
-import demoVideos from "../../DemoData/demo-videos.json"
 import { COLORS, SIZES } from "../../constants"
 import { VideoItem } from "../../types/VideoItem"
 
 export default function VideoDetails() {
     const [playing, setPlaying] = useState(false)
     const { id, videoDetails } = useLocalSearchParams<{ id: string; videoDetails: string }>()
-    
-    const video = videoDetails ? JSON.parse(videoDetails) : null
+
+    const video: VideoItem = videoDetails ? JSON.parse(videoDetails) : null
 
     const onStateChange = useCallback((state: string) => {
         if (state === "ended") {
@@ -27,7 +26,7 @@ export default function VideoDetails() {
             </View>
         )
     }
-    
+
     const headerTitle = video.snippet.title.substring(0, SIZES.xLarge)
 
     return (

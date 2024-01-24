@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import { VideoItem } from "../types/VideoItem"
 import { YT_API_KEY } from '@env'
-import { COLORS } from '../constants'
+import { COLORS, SIZES } from '../constants'
 
 interface SearchBarProps {
     onSearchResult: (results: VideoItem[]) => void;
@@ -62,9 +62,14 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
     }
 
     const fetchData = async () => {
-        const BASE_URL: string = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&videoEmbeddable=true&type=video&key=${YT_API_KEY}&q=${searchValue}`
+        const BASE_URL: string = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&videoEmbeddable=true&type=video&key=${YT_API_KEY}&q=${searchValue}`
         const res = await axios.get(BASE_URL)
         return res.data
+    }
+
+    const handleCleanSearch = ( ) => {
+        setSearchValue('')
+        onSearchResult([])
     }
 
     return (
@@ -79,6 +84,10 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
             <TouchableOpacity onPress={handleSearch}>
                 <Text>Search</Text>
             </TouchableOpacity>
+            
+            <TouchableOpacity onPress={handleCleanSearch}>
+                <Text>X</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -87,14 +96,19 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        margin: 16
+        margin: SIZES.medium
     },
     input: {
         flex: 1,
         marginRight: 8,
         padding: 8,
+        paddingVertical: SIZES.xSmall,
+        paddingHorizontal: SIZES.small,
+
         borderWidth: 1,
         borderColor: COLORS.lightGray,
-        borderRadius: 4,
+        borderRadius: 12,
+
+        backgroundColor: COLORS.lightWhite
     }
 })
