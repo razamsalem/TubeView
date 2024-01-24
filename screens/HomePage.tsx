@@ -8,7 +8,6 @@ import { COLORS, icons, images, SIZES } from "../constants"
 import SearchBar from "../components/SearchBar"
 import VideoList from "../components/VideoList"
 
-
 export default function HomePage() {
     const [videos, setVideos] = useState<VideoItem[]>([])
     const [loading, setLoading] = useState<boolean>(true)

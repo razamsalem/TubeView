@@ -2,14 +2,16 @@ import React, { useState, useCallback } from "react"
 import { Stack, useLocalSearchParams } from "expo-router"
 import { Text, View, StyleSheet } from "react-native"
 import YoutubePlayer from "react-native-youtube-iframe"
+
 import demoVideos from "../../DemoData/demo-videos.json"
 import { COLORS, SIZES } from "../../constants"
+import { VideoItem } from "../../types/VideoItem"
 
 export default function VideoDetails() {
     const [playing, setPlaying] = useState(false)
-
-    const { id } = useLocalSearchParams<{ id: string }>()
-    const video = demoVideos.items.find((item) => item.id.videoId === id)
+    const { id, videoDetails } = useLocalSearchParams<{ id: string; videoDetails: string }>()
+    
+    const video = videoDetails ? JSON.parse(videoDetails) : null
 
     const onStateChange = useCallback((state: string) => {
         if (state === "ended") {
@@ -68,4 +70,4 @@ const styles = StyleSheet.create({
         fontSize: SIZES.medium,
         color: COLORS.gray,
     },
-});
+})
