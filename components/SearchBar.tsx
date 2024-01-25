@@ -106,7 +106,7 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
             />
 
             {isLoading ? (
-                <ActivityIndicator size="small" color={COLORS.lightGray} style={styles.loadingIndicator} />
+                <ActivityIndicator size="small" color={COLORS.primary} style={styles.loadingIndicator} />
             ) : (
                 isTextInputFocused ? (
                     <TouchableOpacity onPress={handleSearch}>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.lightWhite
     },
     icon: {
-        color: COLORS.lightGray,
+        color: COLORS.primary,
         fontSize: SIZES.xLarge
     },
     loadingIndicator: {

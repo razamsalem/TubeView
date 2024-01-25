@@ -34,6 +34,8 @@ export default function VideoDetails() {
             <Stack.Screen
                 options={{
                     headerTitle: headerTitle.length === SIZES.xLarge ? headerTitle + "..." : headerTitle,
+                    headerTitleStyle: {color: "black"},
+                    headerTintColor: COLORS.primary
                 }}
             />
             <View>

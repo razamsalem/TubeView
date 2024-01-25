@@ -23,7 +23,7 @@ export default function SearchPage() {
             ) : (
                 <View style={styles.imageContainer}>
                     <Image
-                        source={require("../assets/search.png")}
+                        source={require("../assets/search-primary.png")}
                         style={styles.fullHeightImage}
                     />
                 </View>
