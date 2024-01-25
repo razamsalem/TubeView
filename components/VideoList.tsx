@@ -1,27 +1,40 @@
-import React from "react"
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import { router } from "expo-router"
+import React from "react";
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { router } from "expo-router";
+import moment from "moment";
 
-import { VideoItem } from "../types/VideoItem"
-import { SIZES } from "../constants"
+import { VideoItem } from "../types/VideoItem";
+import { SIZES, COLORS } from "../constants";
 
 interface VideoListProps {
   videos: VideoItem[]
 }
 
-const MemoizedVideoItem = React.memo(({ item, onPress }: { item: VideoItem; onPress: (videoDetails: VideoItem) => void }) => (
-  <TouchableOpacity onPress={() => onPress(item)}>
-    <View style={styles.videoItem}>
-      <Image source={{ uri: item.snippet.thumbnails.medium.url }} style={styles.thumbnail} />
-      <Text style={styles.title} numberOfLines={2}>
-        {item.snippet.title}
-      </Text>
-    </View>
-  </TouchableOpacity>
-))
+const MemoizedVideoItem = React.memo(({ item, onPress }: { item: VideoItem; onPress: (videoDetails: VideoItem) => void }) => {
+  const formattedTime = moment(item.snippet.publishTime).fromNow()
+
+  return (
+    <TouchableOpacity onPress={() => onPress(item)}>
+      <View style={styles.videoItem}>
+        <Image source={{ uri: item.snippet.thumbnails.medium.url }} style={styles.thumbnail} />
+        <View style={styles.textContainer}>
+          <Text style={styles.title} numberOfLines={2}>
+            {item.snippet.title}
+          </Text>
+          <View style={styles.miniData}>
+            <Text style={styles.channel} numberOfLines={1}>
+              {item.snippet.channelTitle}
+            </Text>
+            <Text>.</Text>
+            <Text style={styles.publishTime}>{formattedTime}</Text>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )
+})
 
 export default function VideoList({ videos }: VideoListProps) {
-
   const handleVideoPress = (videoId: string, videoDetails: VideoItem) => {
     router.push({
       pathname: 'videos/[id]',
@@ -49,7 +62,6 @@ export default function VideoList({ videos }: VideoListProps) {
 const styles = StyleSheet.create({
   videoItem: {
     marginBottom: SIZES.large,
-    alignItems: 'center',
   },
   thumbnail: {
     width: '100%',
@@ -58,7 +70,24 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: SIZES.xSmall,
+    textAlign: 'left',
     fontSize: SIZES.medium,
     fontWeight: 'bold',
+  },
+  textContainer: {
+    flex: 1,
+    paddingHorizontal: 4,
+  },
+  miniData: {
+    flexDirection: 'row',
+    gap: 4
+  },
+  channel: {
+    marginTop: 4,
+    color: COLORS.gray,
+  },
+  publishTime: {
+    marginTop: 4,
+    color: COLORS.gray,
   },
 })

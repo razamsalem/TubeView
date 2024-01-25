@@ -10,7 +10,7 @@ export interface VideoItem {
         }
         title: string
         description: string
-        publishedAt: string
+        publishTime: string
         channelTitle: string
     }
 }
