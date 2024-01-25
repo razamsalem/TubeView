@@ -9,6 +9,7 @@ const COLORS = {
 
     white: "#f1f1f1",
     lightWhite: "#FAFAFC",
+    cleanestWhite: "#fff"
   }
   
   const FONT = {
