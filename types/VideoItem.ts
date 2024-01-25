@@ -4,7 +4,7 @@ export interface VideoItem {
     }
     snippet: {
         thumbnails: {
-            medium: {
+            high: {
                 url: string
             }
         }

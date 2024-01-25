@@ -16,7 +16,7 @@ const MemoizedVideoItem = React.memo(({ item, onPress }: { item: VideoItem; onPr
   return (
     <TouchableOpacity onPress={() => onPress(item)}>
       <View style={styles.videoItem}>
-        <Image source={{ uri: item.snippet.thumbnails.medium.url }} style={styles.thumbnail} />
+        <Image source={{ uri: item.snippet.thumbnails.high.url }} style={styles.thumbnail} />
         <View style={styles.textContainer}>
           <Text style={styles.title} numberOfLines={2}>
             {item.snippet.title}
