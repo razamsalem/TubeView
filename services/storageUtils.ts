@@ -29,6 +29,18 @@ export const saveSearchToHistory = async (searchValue: string) => {
     }
 }
 
+export const deleteSearchHistoryItem = async (searchValue: string) => {
+    try {
+      const searchHistory = await getSearchHistory()
+      const updatedSearchHistory = searchHistory.filter(
+        (item: SearchHistoryItem) => item.value !== searchValue
+      )
+      await AsyncStorage.setItem('searchHistory', JSON.stringify(updatedSearchHistory))
+    } catch (err) {
+      console.error(`Error deleting search history item -> ${err}`)
+    }
+  }
+  
 
 export const deleteSearchHistory = async () => {
     try {

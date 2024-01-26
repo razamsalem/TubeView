@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { COLORS, SIZES } from "../constants"
 import { useEffect, useState } from "react"
-import { deleteSearchHistory, getSearchHistory } from "../services/storageUtils"
+import { deleteSearchHistory, deleteSearchHistoryItem, getSearchHistory } from "../services/storageUtils"
 import { SearchHistoryItem } from "../types/SearchHistoryItem"
 import RecentSearch from "../components/RecentSearch"
 
@@ -20,9 +20,14 @@ export default function UserScreen() {
         setRefreshing(false)
     }
 
-    const handleDelete = () => {
-        deleteSearchHistory()
+    const handleDeleteAll = async () => {
+        await deleteSearchHistory()
         fetchRecentSearches()
+    }
+
+    const handleDeleteEntity = async (searchValue: string) => {
+        await deleteSearchHistoryItem(searchValue)
+        handleRefresh()
     }
 
     const fetchRecentSearches = async () => {
@@ -37,7 +42,7 @@ export default function UserScreen() {
                 <Text style={styles.title}>Recent searches </Text>
 
                 <View style={styles.actionBtns}>
-                    <TouchableOpacity onPress={handleDelete}>
+                    <TouchableOpacity onPress={handleDeleteAll}>
                         <FontAwesome style={styles.HeaderIcon} size={SIZES.medium} name="trash" />
                     </TouchableOpacity>
 
@@ -52,7 +57,7 @@ export default function UserScreen() {
                     recentSearches={recentSearches}
                     refreshing={refreshing}
                     handleRefresh={handleRefresh}
-                    handleDelete ={handleDelete }
+                    handleDelete={handleDeleteEntity}
                 />
             ) : (
                 <View style={styles.searchContainer}>
