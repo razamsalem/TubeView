@@ -20,3 +20,11 @@ export const saveSearchToHistory = async (searchValue: string) => {
         console.error(`Error saving search to history -> ${err}`)
     }
 }
+
+export const deleteSearchHistory = async () => {
+    try {
+      await AsyncStorage.removeItem('searchHistory')
+    } catch (err) {
+      console.error(`Error deleting search history -> ${err}`)
+    }
+  }
