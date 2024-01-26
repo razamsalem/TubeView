@@ -114,9 +114,13 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
                         <FontAwesome name="search" style={styles.icon} />
                     </TouchableOpacity>
                 ) : (
-                    <TouchableOpacity onPress={handleCleanSearch}>
-                        <FontAwesome name="remove" style={styles.icon} />
-                    </TouchableOpacity>
+                    <View>
+                        {searchValue &&
+                            <TouchableOpacity onPress={handleCleanSearch}>
+                                <FontAwesome name="remove" style={styles.icon} />
+                            </TouchableOpacity>
+                        }
+                    </View>
                 )
             )}
         </View>
