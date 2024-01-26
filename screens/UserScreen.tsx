@@ -50,8 +50,9 @@ export default function UserScreen() {
             {recentSearches.length > 0 ? (
                 <RecentSearch
                     recentSearches={recentSearches}
-                    handleRefresh={handleRefresh}
                     refreshing={refreshing}
+                    handleRefresh={handleRefresh}
+                    handleDelete ={handleDelete }
                 />
             ) : (
                 <View style={styles.searchContainer}>
