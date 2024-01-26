@@ -1,13 +1,10 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { COLORS, SIZES } from "../constants"
 import { useEffect, useState } from "react"
 import { deleteSearchHistory, getSearchHistory } from "../services/storageUtils"
-
-interface SearchHistoryItem {
-    value: string
-    time: string
-}
+import { SearchHistoryItem } from "../types/SearchHistoryItem"
+import RecentSearch from "../components/RecentSearch"
 
 export default function UserScreen() {
     const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([])
@@ -36,36 +33,28 @@ export default function UserScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <FontAwesome style={styles.fontIcon} size={24} name="search" />
+                <FontAwesome style={styles.HeaderIcon} size={24} name="search" />
                 <Text style={styles.title}>Recent searches </Text>
 
                 <View style={styles.actionBtns}>
                     <TouchableOpacity onPress={handleDelete}>
-                        <FontAwesome style={styles.fontIcon} size={SIZES.medium} name="trash" />
+                        <FontAwesome style={styles.HeaderIcon} size={SIZES.medium} name="trash" />
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={handleRefresh}>
-                        <FontAwesome style={styles.fontIcon} size={SIZES.medium} name="refresh" />
+                        <FontAwesome style={styles.HeaderIcon} size={SIZES.medium} name="refresh" />
                     </TouchableOpacity>
                 </View>
             </View>
 
             {recentSearches.length > 0 ? (
-                <FlatList
-                    data={recentSearches}
-                    keyExtractor={(_, idx) => idx.toString()}
-                    renderItem={({ item }) => (
-                        <View style={styles.historyItem}>
-                            <FontAwesome size={18} name="clock-o" style={styles.clockIcon} />
-                            <Text style={styles.data}>{item.value}</Text>
-                            <Text style={styles.timeData}>{item.time}</Text>
-                        </View>
-                    )}
+                <RecentSearch
+                    recentSearches={recentSearches}
+                    handleRefresh={handleRefresh}
                     refreshing={refreshing}
-                    onRefresh={handleRefresh}
                 />
             ) : (
-                <ScrollView style={styles.searchContainer}>
+                <View style={styles.searchContainer}>
                     <Image
                         source={require("../assets/search-history.png")}
                         style={styles.noRecentSearchesImage}
@@ -73,12 +62,11 @@ export default function UserScreen() {
                     <Text style={styles.noRecentSearchesMsg}>
                         Your recent searches will appear here
                     </Text>
-                </ScrollView>
+                </View>
             )}
 
-
             <View style={styles.header}>
-                <FontAwesome style={styles.fontIcon} size={24} name="history" />
+                <FontAwesome style={styles.HeaderIcon} size={24} name="history" />
                 <Text style={styles.title}>Your History</Text>
             </View>
         </View>
@@ -101,14 +89,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: COLORS.primary
     },
-    historyItem: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingVertical: 8,
-        paddingHorizontal: SIZES.medium,
-        borderBottomWidth: 1,
-        borderBottomColor: COLORS.gray,
-    },
     actionBtns: {
         flexDirection: "row",
         gap: SIZES.small,
@@ -117,19 +97,8 @@ const styles = StyleSheet.create({
     searchContainer: {
         minHeight: 300
     },
-    data: {
-        color: COLORS.gray
-    },
-    timeData: {
-        color: COLORS.gray,
-        marginLeft: 'auto'
-    },
-    fontIcon: {
+    HeaderIcon: {
         color: COLORS.primary
-    },
-    clockIcon: {
-        marginRight: 8,
-        color: COLORS.gray
     },
     noRecentSearchesMsg: {
         textAlign: 'center',
