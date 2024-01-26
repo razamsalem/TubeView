@@ -1,15 +1,14 @@
-import { View } from "react-native";
-import SearchPage from "../../screens/SearchPage";
+import { SafeAreaView } from "react-native";
+import SearchScreen from "../../screens/SearchScreen";
 import { Stack } from "expo-router";
 import { COLORS } from "../../constants";
 
 export default function Search() {
 
     return (
-        <View>
+        <SafeAreaView>
             <Stack.Screen options={{ headerShadowVisible: false, headerTitleStyle: {color: COLORS.primary} }} />
-
-            <SearchPage />
-        </View>
+            <SearchScreen />
+        </SafeAreaView>
     )
 }

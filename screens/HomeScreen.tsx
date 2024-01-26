@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { ActivityIndicator, Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import { router } from "expo-router"
 
 import { VideoItem } from "../types/VideoItem"
-import { YT_API_KEY } from '@env'
 import { COLORS, icons, images, SIZES } from "../constants"
-import SearchBar from "../components/SearchBar"
 import VideoList from "../components/VideoList"
 
-export default function HomePage() {
+export default function HomeScreen() {
     const [videos, setVideos] = useState<VideoItem[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 

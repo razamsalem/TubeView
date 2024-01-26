@@ -1,12 +1,12 @@
 import React, { useState } from "react"
-import { Image, Text, View, StyleSheet } from "react-native"
+import { Image, View, StyleSheet } from "react-native"
 
 import { VideoItem } from "../types/VideoItem"
 import SearchBar from "../components/SearchBar"
 import VideoList from "../components/VideoList"
 import { COLORS } from "../constants"
 
-export default function SearchPage() {
+export default function SearchScreen() {
     const [userSearch, setUserSearch] = useState<VideoItem[]>([])
 
     const onSearchResult = (results: VideoItem[]) => {
