@@ -7,6 +7,7 @@ import axios from 'axios'
 import { VideoItem } from "../types/VideoItem"
 import { YT_API_KEY } from '@env'
 import { COLORS, SIZES } from '../constants'
+import { saveSearchToHistory } from '../services/storageUtils'
 
 interface SearchBarProps {
     onSearchResult: (results: VideoItem[]) => void
@@ -22,8 +23,8 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
             if (!searchValue.trim()) {
                 return
             }
-
             setIsLoading(true)
+            await saveSearchToHistory(searchValue)
 
             const cacheKey = `cachedVideos_${searchValue}`
             const cachedData = await getCachedData(cacheKey)
