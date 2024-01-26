@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { useFocusEffect } from '@react-navigation/native'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
@@ -11,6 +11,7 @@ import { COLORS, SIZES } from "../constants"
 export default function UserScreen() {
     const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([])
     const [refreshing, setRefreshing] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useFocusEffect(() => {
         fetchRecentSearches()
@@ -18,6 +19,7 @@ export default function UserScreen() {
 
     const handleRefresh = () => {
         setRefreshing(true)
+        setLoading(true)
         fetchRecentSearches()
         setRefreshing(false)
     }
@@ -33,8 +35,15 @@ export default function UserScreen() {
     }
 
     const fetchRecentSearches = async () => {
-        const searchHistory = await getSearchHistory()
-        setRecentSearches(searchHistory)
+        try {
+            const searchHistory = await getSearchHistory()
+            setRecentSearches(searchHistory)
+        } catch (err) {
+            console.error(`Something went wrong when fetching recent searches -> ${err}`)
+            Alert.alert('Something went wrong...')
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -64,14 +73,21 @@ export default function UserScreen() {
                     handleDelete={handleDeleteEntity}
                 />
             ) : (
+
                 <View style={styles.searchContainer}>
-                    <Image
-                        source={require("../assets/search-history.png")}
-                        style={styles.noRecentSearchesImage}
-                    />
-                    <Text style={styles.noRecentSearchesMsg}>
-                        Your recent searches will appear here
-                    </Text>
+                    {loading ? (
+                        <ActivityIndicator style={styles.loadingIndicator} size={"large"} />
+                    ) :
+                        <View>
+                            <Image
+                                source={require("../assets/search-history.png")}
+                                style={styles.noRecentSearchesImage}
+                            />
+                            <Text style={styles.noRecentSearchesMsg}>
+                                Your recent searches will appear here
+                            </Text>
+                        </View>
+                    }
                 </View>
             )}
 
@@ -121,4 +137,9 @@ const styles = StyleSheet.create({
         height: 256,
         alignSelf: "center",
     },
+    loadingIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })
