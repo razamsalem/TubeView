@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { COLORS, SIZES } from "../constants"
 import { useEffect, useState } from "react"
@@ -50,20 +50,31 @@ export default function UserScreen() {
                 </View>
             </View>
 
-            <FlatList
-                data={recentSearches}
-                keyExtractor={(_, idx) => idx.toString()}
-                renderItem={({ item }) => (
-                    <View style={styles.historyItem}>
-                        <FontAwesome size={18} name="clock-o" style={styles.clockIcon} />
-                        <Text style={styles.data}>{item.value}</Text>
-                        <Text style={styles.timeData}>{item.time}</Text>
-                    </View>
-                )}
-                
-                refreshing={refreshing}
-                onRefresh={handleRefresh}
-            />
+            {recentSearches.length > 0 ? (
+                <FlatList
+                    data={recentSearches}
+                    keyExtractor={(_, idx) => idx.toString()}
+                    renderItem={({ item }) => (
+                        <View style={styles.historyItem}>
+                            <FontAwesome size={18} name="clock-o" style={styles.clockIcon} />
+                            <Text style={styles.data}>{item.value}</Text>
+                            <Text style={styles.timeData}>{item.time}</Text>
+                        </View>
+                    )}
+                    refreshing={refreshing}
+                    onRefresh={handleRefresh}
+                />
+            ) : (
+                <ScrollView style={styles.searchContainer}>
+                    <Image
+                        source={require("../assets/search-history.png")}
+                        style={styles.noRecentSearchesImage}
+                    />
+                    <Text style={styles.noRecentSearchesMsg}>
+                        Your recent searches will appear here
+                    </Text>
+                </ScrollView>
+            )}
 
 
             <View style={styles.header}>
@@ -77,6 +88,7 @@ export default function UserScreen() {
 const styles = StyleSheet.create({
     container: {
         marginTop: SIZES.medium,
+        minHeight: 350
     },
     header: {
         flexDirection: 'row',
@@ -102,6 +114,9 @@ const styles = StyleSheet.create({
         gap: SIZES.small,
         marginLeft: 'auto'
     },
+    searchContainer: {
+        minHeight: 300
+    },
     data: {
         color: COLORS.gray
     },
@@ -115,5 +130,16 @@ const styles = StyleSheet.create({
     clockIcon: {
         marginRight: 8,
         color: COLORS.gray
-    }
+    },
+    noRecentSearchesMsg: {
+        textAlign: 'center',
+        fontWeight: '600',
+        fontSize: SIZES.medium,
+        color: COLORS.primary,
+    },
+    noRecentSearchesImage: {
+        width: 256,
+        height: 256,
+        alignSelf: "center",
+    },
 })
