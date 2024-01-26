@@ -1,18 +1,20 @@
+import React, { useState } from "react"
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { useFocusEffect } from '@react-navigation/native'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { COLORS, SIZES } from "../constants"
-import { useEffect, useState } from "react"
-import { deleteSearchHistory, deleteSearchHistoryItem, getSearchHistory } from "../services/storageUtils"
-import { SearchHistoryItem } from "../types/SearchHistoryItem"
+
 import RecentSearch from "../components/RecentSearch"
+import { SearchHistoryItem } from "../types/SearchHistoryItem"
+import { deleteSearchHistory, deleteSearchHistoryItem, getSearchHistory } from "../services/storageUtils"
+import { COLORS, SIZES } from "../constants"
 
 export default function UserScreen() {
     const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([])
     const [refreshing, setRefreshing] = useState<boolean>(false)
 
-    useEffect(() => {
+    useFocusEffect(() => {
         fetchRecentSearches()
-    }, [])
+    })
 
     const handleRefresh = () => {
         setRefreshing(true)
@@ -40,11 +42,13 @@ export default function UserScreen() {
             <View style={styles.header}>
                 <FontAwesome style={styles.HeaderIcon} size={24} name="search" />
                 <Text style={styles.title}>Recent searches </Text>
-
                 <View style={styles.actionBtns}>
-                    <TouchableOpacity onPress={handleDeleteAll}>
-                        <FontAwesome style={styles.HeaderIcon} size={SIZES.medium} name="trash" />
-                    </TouchableOpacity>
+
+                    {recentSearches.length > 0 &&
+                        <TouchableOpacity onPress={handleDeleteAll}>
+                            <FontAwesome style={styles.HeaderIcon} size={SIZES.medium} name="trash" />
+                        </TouchableOpacity>
+                    }
 
                     <TouchableOpacity onPress={handleRefresh}>
                         <FontAwesome style={styles.HeaderIcon} size={SIZES.medium} name="refresh" />
