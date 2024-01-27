@@ -5,6 +5,7 @@ import moment from "moment";
 
 import { VideoItem } from "../types/VideoItem";
 import { SIZES, COLORS } from "../constants";
+import { saveWatchedVideo } from "../services/storageUtils";
 
 interface VideoListProps {
   videos: VideoItem[]
@@ -39,6 +40,14 @@ export default function VideoList({ videos }: VideoListProps) {
     router.push({
       pathname: 'videos/[id]',
       params: { id: videoId, videoDetails: JSON.stringify(videoDetails) },
+    })
+
+    saveWatchedVideo({
+      videoId: videoId,
+      title: videoDetails.snippet.title,
+      thumbnail: videoDetails.snippet.thumbnails.high.url,
+      channelTitle: videoDetails.snippet.channelTitle,
+      timeWatched: new Date().toLocaleString(),
     })
   }
 
