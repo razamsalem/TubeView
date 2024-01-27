@@ -9,7 +9,7 @@ interface RecentSearchProps {
     recentSearches: SearchHistoryItem[]
     refreshing: boolean
     handleRefresh: () => void
-    handleDelete: (searchValue: string) => void
+    handleDelete: (type: string ,value: string) => void
 }
 
 
@@ -29,7 +29,7 @@ export default function RecentSearch({ recentSearches, refreshing, handleRefresh
         <View style={styles.rowBack}>
             <TouchableOpacity
                 style={[styles.backRightBtn, styles.backRightBtnRight]}
-                onPress={() => handleDelete(data.item.value)}
+                onPress={() => handleDelete('search', data.item.value)}
             >
                 <FontAwesome name="trash" size={18} color={COLORS.white} />
             </TouchableOpacity>
@@ -53,7 +53,8 @@ export default function RecentSearch({ recentSearches, refreshing, handleRefresh
 
 const styles = StyleSheet.create({
     searchList: {
-        height: 320
+        maxHeight: 280,
+        marginBottom: SIZES.medium
     },
     historyItem: {
         flexDirection: "row",
