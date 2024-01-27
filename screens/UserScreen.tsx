@@ -9,6 +9,7 @@ import { COLORS, SIZES } from "../constants"
 import { WatchedVideoItem } from "../types/WatchedVideoItem"
 import { SwipeListView } from "react-native-swipe-list-view"
 import RecentWatched from "../components/RecentWatched"
+import NoHistoryMsg from "../components/NoHistoryMsg"
 
 export default function UserScreen() {
     const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([])
@@ -19,7 +20,7 @@ export default function UserScreen() {
     useEffect(() => {
         fetchUserHistory()
         console.log(JSON.stringify(recentWatched));
-        
+
     }, [])
 
     const handleRefresh = () => {
@@ -59,7 +60,7 @@ export default function UserScreen() {
         <View style={styles.container}>
             <View style={styles.header}>
                 <FontAwesome style={styles.HeaderIcon} size={24} name="search" />
-                <Text style={styles.title}>Recent searches </Text>
+                <Text style={styles.title}>Recent searches</Text>
                 <View style={styles.actionBtns}>
 
                     {recentSearches.length > 0 &&
@@ -87,15 +88,9 @@ export default function UserScreen() {
                     {loading ? (
                         <ActivityIndicator style={styles.loadingIndicator} size={"large"} />
                     ) :
-                        <View>
-                            <Image
-                                source={require("../assets/search-history.png")}
-                                style={styles.noRecentSearchesImage}
-                            />
-                            <Text style={styles.noRecentSearchesMsg}>
-                                Your recent searches will appear here
-                            </Text>
-                        </View>
+                        <NoHistoryMsg
+                            type={'search'}
+                        />
                     }
                 </View>
             )}
@@ -107,12 +102,12 @@ export default function UserScreen() {
 
             {recentWatched.length > 0 ? (
                 <View>
-                   <RecentWatched 
-                    recentVideos={recentWatched}
-                    refreshing={refreshing}
-                    handleRefresh={handleRefresh}
-                    handleDelete={handleDeleteEntity}
-                   />
+                    <RecentWatched
+                        recentVideos={recentWatched}
+                        refreshing={refreshing}
+                        handleRefresh={handleRefresh}
+                        handleDelete={handleDeleteEntity}
+                    />
                 </View>
             ) : (
 
@@ -120,15 +115,9 @@ export default function UserScreen() {
                     {loading ? (
                         <ActivityIndicator style={styles.loadingIndicator} size={"large"} />
                     ) :
-                        <View>
-                            <Image
-                                source={require("../assets/search-history.png")}
-                                style={styles.noRecentSearchesImage}
-                            />
-                            <Text style={styles.noRecentSearchesMsg}>
-                                Your recent searches will appear here
-                            </Text>
-                        </View>
+                        <NoHistoryMsg
+                            type={'video'}
+                        />
                     }
                 </View>
             )}
@@ -163,17 +152,6 @@ const styles = StyleSheet.create({
     },
     HeaderIcon: {
         color: COLORS.primary
-    },
-    noRecentSearchesMsg: {
-        textAlign: 'center',
-        fontWeight: '600',
-        fontSize: SIZES.medium,
-        color: COLORS.primary,
-    },
-    noRecentSearchesImage: {
-        width: 256,
-        height: 256,
-        alignSelf: "center",
     },
     loadingIndicator: {
         flex: 1,

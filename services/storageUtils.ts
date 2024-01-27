@@ -47,12 +47,12 @@ export const deleteHistoryItem = async (type: string, value: string) => {
             )
             await AsyncStorage.setItem('searchHistory', JSON.stringify(updatedSearchHistory))
         }
-
         if (type === 'video') {
             const watchedVideos = await getHistory('video')
             const updatedWatchedVideos = watchedVideos.filter((video: WatchedVideoItem) => video.videoId !== value)
             await AsyncStorage.setItem('watchedVideos', JSON.stringify(updatedWatchedVideos))
         }
+        else return null
 
     } catch (err) {
         console.error(`Error deleting history item -> ${err}`)
