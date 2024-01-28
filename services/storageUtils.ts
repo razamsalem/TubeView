@@ -79,19 +79,11 @@ export const deleteHistoryItem = async (type: string, value: string) => {
     }
 }
 
-
 export const deleteSearchHistory = async () => {
     try {
         await AsyncStorage.removeItem('searchHistory')
-    } catch (err) {
-        console.error(`Error deleting search history -> ${err}`)
-    }
-}
-
-export const deleteAllWatchedVideos = async () => {
-    try {
         await AsyncStorage.removeItem('watchedVideos')
     } catch (err) {
-        console.error(`Error deleting all watched videos -> ${err}`)
+        console.error(`Error deleting history -> ${err}`)
     }
 }

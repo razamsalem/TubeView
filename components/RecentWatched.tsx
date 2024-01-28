@@ -93,11 +93,8 @@ const styles = StyleSheet.create({
     width: 75,
   },
   backRightBtnRight: {
-    paddingVertical: SIZES.small,
+    paddingVertical: 48,
     backgroundColor: COLORS.primary,
-  },
-  imgContainer: {
-
   },
   image: {
     width: '40%',
