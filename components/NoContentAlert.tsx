@@ -1,11 +1,11 @@
 import { Image, StyleSheet, Text, View } from "react-native"
 import { COLORS, SIZES } from "../constants"
 
-interface NoHistoryMsgProps {
+interface NoContentAlertProps {
     type: string
 }
 
-export default function NoHistoryMsg({ type }: NoHistoryMsgProps) {
+export default function NoContentAlert({ type }: NoContentAlertProps) {
 
     return (
         <View style={styles.msgContainer}>
@@ -13,9 +13,9 @@ export default function NoHistoryMsg({ type }: NoHistoryMsgProps) {
                 <View>
                     <Image
                         source={require("../assets/video.png")}
-                        style={styles.noRecentHistoryImg}
+                        style={styles.AlertImg}
                     />
-                    <Text style={styles.noRecentHistoryMsg}>
+                    <Text style={styles.AlertMsg}>
                         Your video history will appear here
                     </Text>
                 </View>
@@ -25,10 +25,22 @@ export default function NoHistoryMsg({ type }: NoHistoryMsgProps) {
                 <View>
                     <Image
                         source={require("../assets/search-head.png")}
-                        style={styles.noRecentHistoryImg}
+                        style={styles.AlertImg}
                     />
-                    <Text style={styles.noRecentHistoryMsg}>
+                    <Text style={styles.AlertMsg}>
                         Your recent searches will appear here
+                    </Text>
+                </View>
+            }
+
+            {type === 'error' &&
+                <View>
+                    <Image
+                        source={require("../assets/not-found.png")}
+                        style={styles.AlertImg}
+                    />
+                    <Text style={styles.AlertMsg}>
+                        Video not found
                     </Text>
                 </View>
             }
@@ -43,17 +55,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: SIZES.xSmall
     },
-    noRecentHistoryImg: {
+    AlertImg: {
         width: 200,
         height: 200,
         alignSelf: "center",
         marginBottom: 6
     },
-    noRecentHistoryMsg: {
+    AlertMsg: {
         textAlign: 'center',
         fontWeight: '600',
         fontSize: SIZES.medium,
         color: COLORS.primary,
     },
-
 })

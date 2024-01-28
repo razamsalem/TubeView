@@ -8,7 +8,7 @@ import { deleteSearchHistory, deleteHistoryItem, getHistory } from "../services/
 import { COLORS, SIZES } from "../constants"
 import { WatchedVideoItem } from "../types/WatchedVideoItem"
 import RecentWatched from "../components/RecentWatched"
-import NoHistoryMsg from "../components/NoHistoryMsg"
+import NoContentAlert from "../components/NoContentAlert"
 
 export default function UserScreen() {
     const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([])
@@ -103,7 +103,7 @@ export default function UserScreen() {
                     {loading ? (
                         <ActivityIndicator style={styles.loadingIndicator} size={"large"} />
                     ) :
-                        <NoHistoryMsg
+                        <NoContentAlert
                             type={'search'}
                         />
                     }
@@ -130,7 +130,7 @@ export default function UserScreen() {
                     {loading ? (
                         <ActivityIndicator style={styles.loadingIndicator} size={"large"} />
                     ) :
-                        <NoHistoryMsg
+                        <NoContentAlert
                             type={'video'}
                         />
                     }
@@ -155,7 +155,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: SIZES.xLarge,
         fontWeight: 'bold',
-        color: COLORS.primary
+        color: COLORS.primary,
+        marginBottom: SIZES.xxSmall
     },
     actionBtns: {
         flexDirection: "row",

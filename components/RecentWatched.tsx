@@ -16,19 +16,22 @@ interface RecentSearchProps {
 export default function RecentWatched({ recentVideos, refreshing, handleRefresh, handleDelete }: RecentSearchProps) {
 
   const renderItem = (data: { item: WatchedVideoItem; index: number }) => (
-      <View style={styles.historyItem}>
-        <Image style={styles.image} source={{ uri: data.item.thumbnail }} />
-        <View style={styles.videoInfo}>
-          <Text style={styles.valueData}>
-            {data.item.title.length > 30 ? `${data.item.title.substring(0, 30)}...` : data.item.title}
-          </Text>
+    <View style={styles.historyItem}>
+      <Image style={styles.image} source={{ uri: data.item.thumbnail }} />
+      <View style={styles.videoInfo}>
+        <Text style={styles.valueData}>
+          {data.item.title.length > 30 ? `${data.item.title.substring(0, 30)}...` : data.item.title}
+        </Text>
+        <View style={styles.textGroup}>
+          <FontAwesome size={14} name="youtube" style={styles.icon} />
           <Text style={styles.timeData}>{data.item.channelTitle}</Text>
-          <View style={styles.date}>
-            <FontAwesome size={14} name="clock-o" style={styles.clockIcon} />
-            <Text style={styles.timeData}>{data.item.timeWatched}</Text>
-          </View>
+        </View>
+        <View style={styles.textGroup}>
+          <FontAwesome size={14} name="clock-o" style={styles.icon} />
+          <Text style={styles.timeData}>{data.item.timeWatched}</Text>
         </View>
       </View>
+    </View>
   )
 
   const RenderHiddenItem = (data: { item: WatchedVideoItem; index: number }) => (
@@ -52,6 +55,7 @@ export default function RecentWatched({ recentVideos, refreshing, handleRefresh,
         rightOpenValue={- 75}
         refreshing={refreshing}
         onRefresh={handleRefresh}
+        style={{ height: '50%' }}
       />
     </ View>
   )
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.lightWhite,
     gap: SIZES.small
   },
-  clockIcon: {
+  icon: {
     marginRight: 4,
     color: COLORS.gray
   },
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     textAlign: 'left'
   },
-  date: {
+  textGroup: {
     flexDirection: 'row',
     alignItems: 'center',
   }

@@ -7,6 +7,7 @@ import moment from "moment";
 
 import { COLORS, SIZES } from "../../constants";
 import { VideoItem } from "../../types/VideoItem";
+import NoContentAlert from "../../components/NoContentAlert";
 
 export default function VideoDetails() {
     const [playing, setPlaying] = useState(false)
@@ -26,7 +27,9 @@ export default function VideoDetails() {
     if (!video || !video.snippet) {
         return (
             <View style={styles.errorContainer}>
-                <Text>Video not found</Text>
+                <NoContentAlert
+                    type={'error'}
+                />
             </View>
         )
     }
