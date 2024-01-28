@@ -5,7 +5,7 @@ import moment from "moment";
 
 import { VideoItem } from "../types/VideoItem";
 import { SIZES, COLORS } from "../constants";
-import { saveHistory } from "../services/storageUtils";
+import { handleVideoPress } from "../services/videoUtils";
 
 interface VideoListProps {
   videos: VideoItem[]
@@ -36,21 +36,6 @@ const MemoizedVideoItem = React.memo(({ item, onPress }: { item: VideoItem; onPr
 })
 
 export default function VideoList({ videos }: VideoListProps) {
-  const handleVideoPress = (videoId: string, videoDetails: VideoItem) => {
-    router.push({
-      pathname: 'videos/[id]',
-      params: { id: videoId, videoDetails: JSON.stringify(videoDetails) },
-    })
-
-    saveHistory('video', {
-      videoId: videoId,
-      title: videoDetails.snippet.title,
-      thumbnail: videoDetails.snippet.thumbnails.high.url,
-      channelTitle: videoDetails.snippet.channelTitle,
-      timeWatched: new Date().toLocaleString(),
-    })
-  }
-
   const keyExtractor = (item: VideoItem) => item.id.videoId
 
   const renderVideoItem = ({ item }: { item: VideoItem }) => (

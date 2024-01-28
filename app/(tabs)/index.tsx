@@ -1,7 +1,7 @@
 import React from "react"
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native"
+import { SafeAreaView, StyleSheet } from "react-native"
 
-import { COLORS, icons, images, SIZES } from "../../constants"
+import { COLORS } from "../../constants"
 import HomeScreen from "../../screens/HomeScreen"
 import { Stack } from "expo-router"
 

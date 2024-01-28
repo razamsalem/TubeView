@@ -1,5 +1,5 @@
 import React from "react"
-import { FlatList, StyleSheet, Text, View, TouchableOpacity, Image } from "react-native"
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native"
 import { SwipeListView } from "react-native-swipe-list-view"
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { WatchedVideoItem } from "../types/WatchedVideoItem"
@@ -16,19 +16,19 @@ interface RecentSearchProps {
 export default function RecentWatched({ recentVideos, refreshing, handleRefresh, handleDelete }: RecentSearchProps) {
 
   const renderItem = (data: { item: WatchedVideoItem; index: number }) => (
-    <View style={styles.historyItem}>
-      <Image style={styles.image} source={{ uri: data.item.thumbnail }} />
-      <View style={styles.videoInfo}>
-        <Text style={styles.valueData}>
-          {data.item.title.length > 30 ? `${data.item.title.substring(0, 30)}...` : data.item.title}
-        </Text>
-        <Text style={styles.timeData}>{data.item.channelTitle}</Text>
-        <View style={styles.date}>
-          <FontAwesome size={14} name="clock-o" style={styles.clockIcon} />
-          <Text style={styles.timeData}>{data.item.timeWatched}</Text>
+      <View style={styles.historyItem}>
+        <Image style={styles.image} source={{ uri: data.item.thumbnail }} />
+        <View style={styles.videoInfo}>
+          <Text style={styles.valueData}>
+            {data.item.title.length > 30 ? `${data.item.title.substring(0, 30)}...` : data.item.title}
+          </Text>
+          <Text style={styles.timeData}>{data.item.channelTitle}</Text>
+          <View style={styles.date}>
+            <FontAwesome size={14} name="clock-o" style={styles.clockIcon} />
+            <Text style={styles.timeData}>{data.item.timeWatched}</Text>
+          </View>
         </View>
       </View>
-    </View>
   )
 
   const RenderHiddenItem = (data: { item: WatchedVideoItem; index: number }) => (

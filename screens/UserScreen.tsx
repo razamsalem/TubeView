@@ -54,7 +54,6 @@ export default function UserScreen() {
 
     const fetchUserHistory = async () => {
         try {
-
             const searchHistory = await getHistory('search')
             setRecentSearches(searchHistory)
 
@@ -77,12 +76,12 @@ export default function UserScreen() {
 
                     {recentSearches.length > 0 &&
                         <TouchableOpacity onPress={handleDeleteAll}>
-                            <FontAwesome style={styles.HeaderIcon} size={SIZES.medium} name="trash" />
+                            <FontAwesome style={styles.HeaderIcon} size={SIZES.large} name="trash" />
                         </TouchableOpacity>
                     }
 
                     <TouchableOpacity onPress={handleRefresh}>
-                        <FontAwesome style={styles.HeaderIcon} size={SIZES.medium} name="refresh" />
+                        <FontAwesome style={styles.HeaderIcon} size={SIZES.large} name="refresh" />
                     </TouchableOpacity>
                 </View>
             </View>
