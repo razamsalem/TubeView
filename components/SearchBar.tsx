@@ -8,6 +8,8 @@ import { VideoItem } from "../types/VideoItem"
 import { YT_API_KEY } from '@env'
 import { COLORS, SIZES } from '../constants'
 import { saveHistory } from '../services/storageUtils'
+import { cacheData, getCachedData } from '../services/cacheUtils'
+import { fetchVideoData } from '../services/videoUtils'
 
 interface SearchBarProps {
     onSearchResult: (results: VideoItem[]) => void
@@ -23,6 +25,7 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
             if (!searchValue.trim()) {
                 return
             }
+
             setIsLoading(true)
             await saveHistory('search', searchValue)
 
@@ -34,7 +37,7 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
                 return
             }
 
-            const res = await fetchData()
+            const res = await fetchVideoData(searchValue)
             onSearchResult(res.items)
             cacheData(cacheKey, res.items)
         } catch (err) {
@@ -44,40 +47,6 @@ export default function SearchBar({ onSearchResult }: SearchBarProps) {
             setIsLoading(false)
             Keyboard.dismiss()
         }
-    }
-
-    const cacheData = async (cacheKey: string, data: VideoItem[]) => {
-        const dataToCache = {
-            items: data,
-            timestamp: new Date().getTime()
-        }
-        AsyncStorage.setItem(cacheKey, JSON.stringify(dataToCache))
-    }
-
-    const getCachedData = async (cacheKey: string) => {
-        const cachedData = await AsyncStorage.getItem(cacheKey)
-
-        if (cachedData) {
-            const parsedData = JSON.parse(cachedData)
-
-            const currTime = new Date().getTime()
-            const cacheTime = parsedData.timestamp
-            const timeDiff = (currTime - cacheTime) / (1000 * 60 * 60)
-
-            if (timeDiff < 10) {
-                return parsedData
-            } else {
-                AsyncStorage.removeItem(cacheKey)
-            }
-
-            return null
-        }
-    }
-
-    const fetchData = async () => {
-        const BASE_URL: string = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&videoEmbeddable=true&type=video&key=${YT_API_KEY}&q=${searchValue}`
-        const res = await axios.get(BASE_URL)
-        return res.data
     }
 
     const handleCleanSearch = () => {
