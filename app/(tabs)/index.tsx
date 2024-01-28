@@ -9,7 +9,7 @@ import { Stack } from "expo-router"
 export default function Home() {
     return (
         <SafeAreaView style={styles.container}>
-            <Stack.Screen options={{ headerTitleStyle: { color: COLORS.primary } }} />
+            <Stack.Screen options={{ headerShadowVisible: false, headerTitleStyle: {color: COLORS.primary} }} />
             <HomeScreen />
         </SafeAreaView>
     )

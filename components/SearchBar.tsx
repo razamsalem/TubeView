@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
 
-        marginRight: 8,
-        padding: 8,
+        marginRight: SIZES.xxSmall,
+        padding: SIZES.xxSmall,
         paddingVertical: SIZES.xSmall,
         paddingHorizontal: SIZES.small,
 
@@ -121,6 +121,6 @@ const styles = StyleSheet.create({
         fontSize: SIZES.xLarge
     },
     loadingIndicator: {
-        marginLeft: 8,
+        marginLeft: SIZES.xxSmall,
     }
 })

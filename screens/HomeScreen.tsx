@@ -14,7 +14,7 @@ export default function HomeScreen() {
     const [loading, setLoading] = useState<boolean>(true)
     const [selectedSubject, setSelectedSubject] = useState<string>("React Native")
 
-    const subjects = ["React Native", "Coding", "Sports", "Music", "Gaming", "Israel"]
+    const subjects = ["React Native", "Coding", "Sports", "Music", "News", "Gaming", "History"]
 
     useEffect(() => {
         fetchData()
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         paddingVertical: SIZES.xSmall,
-        backgroundColor: COLORS.lightWhite,
+        backgroundColor: COLORS.cleanestWhite,
     },
     loadingIndicator: {
         flex: 1,

@@ -11,7 +11,7 @@ export const getCachedData = async (cacheKey: string) => {
         const cacheTime = parsedData.timestamp
         const timeDiff = (currTime - cacheTime) / (1000 * 60 * 60)
 
-        if (timeDiff < 10) {
+        if (timeDiff < 4) {
             return parsedData
         } else {
             AsyncStorage.removeItem(cacheKey)

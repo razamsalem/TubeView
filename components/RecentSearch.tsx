@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.lightWhite
     },
     clockIcon: {
-        marginRight: 8,
+        marginRight: SIZES.xxSmall,
         color: COLORS.gray
     },
     valueData: {

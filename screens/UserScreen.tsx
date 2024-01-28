@@ -47,6 +47,10 @@ export default function UserScreen() {
         )
     }
 
+    const hasHistory = () => {
+        return recentSearches.length > 0 || recentWatched.length > 0
+    }
+
     const handleDeleteEntity = async (type: string, value: string) => {
         await deleteHistoryItem(type, value)
         handleRefresh()
@@ -74,7 +78,7 @@ export default function UserScreen() {
                 <Text style={styles.title}>Recent searches</Text>
                 <View style={styles.actionBtns}>
 
-                    {recentSearches.length > 0 &&
+                    {hasHistory() &&
                         <TouchableOpacity onPress={handleDeleteAll}>
                             <FontAwesome style={styles.HeaderIcon} size={SIZES.large} name="trash" />
                         </TouchableOpacity>

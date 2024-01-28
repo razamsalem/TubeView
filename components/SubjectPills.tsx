@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native"
-import { SIZES } from "../constants"
+import { COLORS, SIZES } from "../constants"
 
 interface SubjectPillsProps {
     subjects: string[]
@@ -15,12 +15,18 @@ export default function subjectPills({ subjects, selectedSubject, setSelectedSub
             keyExtractor={(item) => item}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
                 <TouchableOpacity
-                    style={[styles.subjectPill, selectedSubject === item && styles.selectedSubject]}
+                    style={[
+                        styles.subjectPill,
+                        selectedSubject === item && styles.selectedSubject,
+                        index === 0 && styles.firstPill
+                    ]}
                     onPress={() => setSelectedSubject(item)}
                 >
-                    <Text style={styles.subjectText}>{item}</Text>
+                   <Text style={[styles.subjectText, selectedSubject === item && styles.selectedSubjectText]}>
+                        {item}
+                    </Text>
                 </TouchableOpacity>
             )}
         />
@@ -30,17 +36,22 @@ export default function subjectPills({ subjects, selectedSubject, setSelectedSub
 const styles = StyleSheet.create({
     subjectPill: {
         paddingHorizontal: SIZES.medium,
-        paddingVertical: 8,
-        marginRight: 8,
-        borderRadius: SIZES.large,
-        borderWidth: 1,
-        borderColor: "#ccc",
+        paddingVertical: SIZES.xxSmall,
+        marginRight: SIZES.xxSmall,
+        backgroundColor: COLORS.white,
+        borderRadius: SIZES.xxSmall
+    },
+    firstPill: {
+        marginLeft: SIZES.xxSmall,
     },
     selectedSubject: {
-        backgroundColor: "#3498db",
-        borderColor: "#3498db",
+        backgroundColor: COLORS.primary,
     },
     subjectText: {
         color: "#333",
+        fontWeight: 'bold'
     },
+    selectedSubjectText: {
+        color: COLORS.white,
+    }
 })
