@@ -5,7 +5,7 @@ import moment from "moment";
 
 import { VideoItem } from "../types/VideoItem";
 import { SIZES, COLORS } from "../constants";
-import { saveWatchedVideo } from "../services/storageUtils";
+import { saveHistory } from "../services/storageUtils";
 
 interface VideoListProps {
   videos: VideoItem[]
@@ -42,7 +42,7 @@ export default function VideoList({ videos }: VideoListProps) {
       params: { id: videoId, videoDetails: JSON.stringify(videoDetails) },
     })
 
-    saveWatchedVideo({
+    saveHistory('video', {
       videoId: videoId,
       title: videoDetails.snippet.title,
       thumbnail: videoDetails.snippet.thumbnails.high.url,

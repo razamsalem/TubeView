@@ -20,35 +20,55 @@ export const getHistory = async (type: string) => {
     }
 }
 
-export const saveSearchToHistory = async (searchValue: string) => {
+export const saveHistory = async (type: string, value: string | WatchedVideoItem) => {
     try {
-        const searchHistory = await getHistory('search')
-        const existingIdx = searchHistory.findIndex((item: SearchHistoryItem) => item.value === searchValue)
+        let history
 
-        if (existingIdx !== -1) {
-            searchHistory.splice(existingIdx, 1)
+        if (type === 'search') {
+            history = await getHistory(type)
+            const existingIdx = history.findIndex((item: SearchHistoryItem) => item.value === value)
+
+            if (existingIdx !== -1) {
+                history.splice(existingIdx, 1)
+            }
+
+            const newSearch = { value, time: new Date().toLocaleString() }
+            history.unshift(newSearch)
+
+            await AsyncStorage.setItem('searchHistory', JSON.stringify(history))
+        } else if (type === 'video') {
+            const videoData = value as WatchedVideoItem
+
+            history = await getHistory(type)
+            const existingIdx = history.findIndex((item: WatchedVideoItem) => item.videoId === videoData.videoId)
+
+            if (existingIdx !== -1) {
+                history.splice(existingIdx, 1)
+            }
+
+            history.unshift(videoData)
+            await AsyncStorage.setItem('watchedVideos', JSON.stringify(history))
+
+        } else {
+            console.error('Invalid history type')
         }
 
-        const newSearch = { value: searchValue, time: new Date().toLocaleString() }
-        searchHistory.unshift(newSearch)
-
-        await AsyncStorage.setItem('searchHistory', JSON.stringify(searchHistory))
     } catch (err) {
-        console.error(`Error saving search to history -> ${err}`)
+        console.error(`Error saving history -> ${err}`)
     }
 }
 
 export const deleteHistoryItem = async (type: string, value: string) => {
     try {
         if (type === 'search') {
-            const searchHistory = await getHistory('search')
+            const searchHistory = await getHistory(type)
             const updatedSearchHistory = searchHistory.filter(
                 (item: SearchHistoryItem) => item.value !== value
             )
             await AsyncStorage.setItem('searchHistory', JSON.stringify(updatedSearchHistory))
         }
         if (type === 'video') {
-            const watchedVideos = await getHistory('video')
+            const watchedVideos = await getHistory(type)
             const updatedWatchedVideos = watchedVideos.filter((video: WatchedVideoItem) => video.videoId !== value)
             await AsyncStorage.setItem('watchedVideos', JSON.stringify(updatedWatchedVideos))
         }
@@ -67,19 +87,6 @@ export const deleteSearchHistory = async () => {
         console.error(`Error deleting search history -> ${err}`)
     }
 }
-
-
-
-export const saveWatchedVideo = async (videoData: WatchedVideoItem) => {
-    try {
-        const watchedVideos = await getHistory('video')
-        watchedVideos.unshift(videoData)
-        await AsyncStorage.setItem('watchedVideos', JSON.stringify(watchedVideos))
-    } catch (err) {
-        console.error(`Error saving watched video -> ${err}`)
-    }
-}
-
 
 export const deleteAllWatchedVideos = async () => {
     try {
