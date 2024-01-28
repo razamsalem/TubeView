@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TubeView",
-    "slug": "TubeView",
+    "slug": "tubeview",
     "scheme": "TubeView",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -30,6 +30,15 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3789f4bd-64c3-47da-8bb4-139fd8f23306"
+      }
+    },
+    "owner": "raz207"
   }
 }

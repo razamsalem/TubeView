@@ -55,7 +55,7 @@ export default function RecentWatched({ recentVideos, refreshing, handleRefresh,
         rightOpenValue={- 75}
         refreshing={refreshing}
         onRefresh={handleRefresh}
-        style={{ height: '50%' }}
+        style={{ height: '10%' }}
       />
     </ View>
   )
@@ -63,7 +63,7 @@ export default function RecentWatched({ recentVideos, refreshing, handleRefresh,
 
 const styles = StyleSheet.create({
   searchList: {
-    minHeight: 360
+    minHeight: 360,
   },
   historyItem: {
     flexDirection: "row",

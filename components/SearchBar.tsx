@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text, Keyboard, ActivityIndicator } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import axios from 'axios'
 
 import { VideoItem } from "../types/VideoItem"
-import { YT_API_KEY } from '@env'
 import { COLORS, SIZES } from '../constants'
 import { saveHistory } from '../services/storageUtils'
 import { cacheData, getCachedData } from '../services/cacheUtils'
