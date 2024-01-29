@@ -20,7 +20,7 @@ export default function RecentWatched({ recentVideos, refreshing, handleRefresh,
       <Image style={styles.image} source={{ uri: data.item.thumbnail }} />
       <View style={styles.videoInfo}>
         <Text style={styles.valueData}>
-          {data.item.title.length > 30 ? `${data.item.title.substring(0, 30)}...` : data.item.title}
+          {data.item.title.length > 28 ? `${data.item.title.substring(0, 28)}...` : data.item.title}
         </Text>
         <View style={styles.textGroup}>
           <FontAwesome size={14} name="youtube" style={styles.icon} />

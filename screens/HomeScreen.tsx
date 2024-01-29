@@ -25,7 +25,7 @@ export default function HomeScreen() {
             setLoading(true)
 
             if (selectedSubject === "React Native") {
-                const res = await require("../DemoData/demo-videos.json")
+                const res = await require("../data/videos.json")
                 setVideos(res.items)
             } else {
                 const cacheKey = `cachedVideos_${selectedSubject}`
