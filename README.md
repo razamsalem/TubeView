@@ -25,7 +25,7 @@ With TubeView, users can easily navigate through different video categories, ens
 
 ### Logical Thinking
 
-Throughout the development process, the focus was on creating an intuitive and visually appealing application. The logical structure of the app ensures a seamless flow from searching for videos to watching them.
+Throughout the development process, the focus was on creating an intuitive and visually appealing application. The logical structure of the app ensures a seamless flow from searching for videos to watching them. 💻
 
 ## Getting Started
 
@@ -51,7 +51,7 @@ To run this project, you will need to add the next environment variable to your 
 
 `YT_API_KEY=[Your YouTube API key]`
 
-
+Don't worry there is a cache system 😉
 
 # Screenshots
 
