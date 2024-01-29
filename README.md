@@ -67,5 +67,7 @@ To run this project, you will need to add the next environment variable to your 
 
 # User data screen
 
-![App Screenshot](https://res.cloudinary.com/de2rdmsca/image/upload/v1706529700/IMG_0084_uxfoov.jpg)
+![App Screenshot](https://res.cloudinary.com/de2rdmsca/image/upload/v1706531815/IMG_0086_dseoze.jpg)
+
+![App Screenshot](https://res.cloudinary.com/de2rdmsca/image/upload/v1706531814/IMG_0087_fc3v2d.jpg)
 
